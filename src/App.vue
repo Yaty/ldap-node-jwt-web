@@ -56,7 +56,7 @@
 
 <script>
 import axios from 'axios';
-const apiUri = 'https://ldap-node-jwt.herokuapp.com/api';
+const apiUri = 'http://hdaroit.fr/api';
 
 export default {
   name: 'app',
