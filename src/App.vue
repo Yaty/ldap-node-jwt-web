@@ -21,6 +21,10 @@
     <div id="home" v-if="showHome">
       <h1>Home</h1>
 
+      <ul>
+          <li v-for="(data, index) in news" :key="index">News : {{data.name}}</li>
+      </ul>
+
       <button type="button" @click="logout">Logout</button>
     </div>
 
@@ -71,6 +75,7 @@ export default {
             showRegister: false,
             showHome: false,
             token: null,
+            news: [],
         };
     },
     methods: {
@@ -81,7 +86,7 @@ export default {
             });
 
             this.token = res.data.jwt;
-            this.openHome();
+            return this.openHome();
         },
         async register() {
               await axios.post(`${apiUri}/users`, {
@@ -105,10 +110,12 @@ export default {
             this.showHome = false;
             this.showLogin = true;
         },
-        openHome() {
+        async openHome() {
           this.showRegister = false;
           this.showHome = true;
           this.showLogin = false;
+          const news = await axios.get(`${apiUri}/users/news?access_token=${this.token}`);
+          this.news = news.data;
         },
         logout() {
             this.username = null;
